@@ -159,12 +159,81 @@ body{
     font-size: 12px;
 }
 
+
+
+.saved-recipes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.saved-recipe {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 0;
+    transition: background 0.2s, opacity 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.saved-recipe:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Hide three-dot menu initially */
+.more-options {
+    display: none;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+/* Show three-dot menu on hover */
+.saved-recipe:hover .more-options {
+    display: inline-block;
+}
+
+/* Hide delete button initially */
+.delete-btn {
+    position: absolute;
+    top: -26px;
+    right: 0px; /* next to the dots */
+    background: rgba(255, 255, 255, 0.34);
+    color: red;
+    padding: 4px 20px;
+    border-radius: 5px;
+    font-size: 12px;
+    display: none;
+}
+.food-saved{
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-left: 57px;
+     opacity: 0;
+}
+
+
+/* Show delete button when dots are clicked (JS) */
+.saved-recipe.show-delete .delete-btn {
+    display: block;
+}
+
+
 /* 4. The "Open" State (Triggered by JS) */
 body.sidebar-open .side-bar {
     width: var(--sidebar-open-width); /* Expands to 240px */
 }
 
 body.sidebar-open .sidebar-text{
+    opacity: 1; /* Becomes visible */
+}
+body.sidebar-open .saved-recipe{
+    opacity: 1; /* Becomes visible */
+}
+body.sidebar-open .food-saved{
     opacity: 1; /* Becomes visible */
 }
 body.sidebar-open .sidebar-text-mail{
@@ -217,8 +286,7 @@ code to hide the header
     transition: background-color 0.2s, border-radius 0.2s;
 }
 .l11{
-    margin-left: -30px;
-    margin-right: 10px;
+    margin-left: -40px;
     margin-top: 4px;
     padding: 16px 50px;
     color: rgba(154, 108, 22, 0.76);
@@ -228,7 +296,7 @@ code to hide the header
 
 .l11:hover:not(img){
     background-color: rgba(244, 244, 244, 0.15);
-    border-radius: 10px;
+    border-radius: 0;
 }
 .menu{
     display: none;
@@ -319,9 +387,14 @@ code to hide the header
     .sidebar- mobile{
         display: block;
     }
-
+    body.sidebar-open .header_nav {
+    padding-left: 10px
 }
 
+}
+/*
+overlay to hide the remaining of the screen when the side bar is open
+ */
 .overlay{
   position: fixed;
   top: 0;
@@ -332,4 +405,6 @@ code to hide the header
   display: none; /* hidden by default */
   z-index: 0; /* below the sidebar */
 }
+
+
 
