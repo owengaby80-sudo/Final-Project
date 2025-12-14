@@ -83,6 +83,32 @@ Responsive sidebar on mobile and tablete
             <span class="sidebar-text-res">Saved Recipes</span>
         </div>
 
+         <div class="saved-recipe">
+            <span class="food-saved">Chicken and hot pepe</span>
+            <span class="more-options">⋯</span>
+            <div class="delete-btn">Delete</div>
+        </div>
+        <div class="saved-recipe">
+                <span class="food-saved">Beef and Veggie Stew</span>
+                <span class="more-options">⋯</span>
+                <div class="delete-btn">Delete</div>
+        </div>
+        <div class="sidebar-item-container">
+            <img class="sidebar-icon" src="https://api.iconify.design/heroicons-outline:save.svg?color=white">
+            <span class="sidebar-text-res">Made Recipes</span>
+        </div>
+
+         <div class="saved-recipe">
+            <span class="food-saved">Chicken and hot pepe</span>
+            <span class="more-options">⋯</span>
+            <div class="delete-btn">Delete</div>
+        </div>
+        <div class="saved-recipe">
+                <span class="food-saved">Beef and Veggie Stew</span>
+                <span class="more-options">⋯</span>
+                <div class="delete-btn">Delete</div>
+        </div>
+
     </div>
 
     <div class="bottom-section-res">
@@ -127,6 +153,31 @@ Side bar on desktop
             <img class="sidebar-icon" src="https://api.iconify.design/heroicons-outline:save.svg?color=white">
             <span class="sidebar-text">Saved Recipes</span>
         </div>
+        <div class="saved-recipe">
+            <span class="food-saved">Chicken and hot pepe</span>
+            <span class="more-options">⋯</span>
+            <div class="delete-btn">Delete</div>
+        </div>
+        <div class="saved-recipe">
+                <span class="food-saved">Beef and Veggie Stew</span>
+                <span class="more-options">⋯</span>
+                <div class="delete-btn">Delete</div>
+        </div>
+        <div class="sidebar-item-container">
+            <img class="sidebar-icon" src="https://api.iconify.design/heroicons-outline:save.svg?color=white">
+            <span class="sidebar-text">made Recipes</span>
+        </div>
+        <div class="saved-recipe">
+            <span class="food-saved">Chicken and hot pepe</span>
+            <span class="more-options">⋯</span>
+            <div class="delete-btn">Delete</div>
+        </div>
+        <div class="saved-recipe">
+                <span class="food-saved">Beef and Veggie Stew</span>
+                <span class="more-options">⋯</span>
+                <div class="delete-btn">Delete</div>
+        </div>
+
     </div>
 
     <div class="bottom-section">
@@ -171,6 +222,15 @@ Side bar on desktop
   hideSidebar();
 });
 
+// Select all more-options dots
+const moreOptions = document.querySelectorAll('.more-options');
+
+moreOptions.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+        const parent = e.target.closest('.saved-recipe');
+        parent.classList.toggle('show-delete');
+    });
+});
 
 </script>
 </html>
