@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="user.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body style="margin-left: 20px">
+<!--
+
+header html code
+-->
+<header>
+    <!-- Header logo and name   -->
+    <nav class="header_nav">
+        <div class="logo-info">
+            <img class="logo" src="2b7382fc7e12f219f1b0f6ce5b54886877f3544b.png">
+            <p class="logo-name"><a>Chef Roots</a></p>
+        </div>
+        <!-- header attribute  -->
+        <div>
+            <ul class="hearder-attribute">
+                <li class="l1"><a href="#">Home</a></li>
+                <li class="l1"><a href="#">Recommendations</a> </li>
+                <li class="l1"><a href="#">About us</a> </li>
+                <li class="menu" onclick="showSidebar()"><a href="#"><img src="menu_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" style="color: #FFFFFF"></a> </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<!-
+
+Side bar html code item
+
+-->
+<nav class="responsive-side-bar">
+    <ul class="responsive-menu">
+        <li class="l11" onclick="hideSidebar()"><img src="close_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png"></li>
+        <li class="l11"><a href="#">Home</a></li>
+        <li class="l11"><a href="#">Recommendation</a></li>
+        <li class="l11"><a href="#">About</a></li>
+    </ul>
+</nav>
+
+
+<!--
+
+Responsive sidebar on mobile and tablete
+
+-->
+<div class="sidebar-mobile" onclick="showResp()">
+            <img class="sidebar-icon-mobile" src="image/mynaui_sidebar.svg">
+        </div>
+<section class="side-bar-responsive">
+    <div class="top-section-res">
+        <!-- Toggle Button (The Menu Icon) -->
+
+        <div class="sidebar-item-container toggle-btn" onclick="hideResp()">
+            <img class="sidebar-icon" src="https://api.iconify.design/mynaui:sidebar.svg?color=white">
+            <span class="sidebar-text-res">Close Menu</span>
+        </div>
+
+        <!-- Add User -->
+        <div class="sidebar-item-container">
+            <div>
+                <img class="sidebar-icon" src="https://api.iconify.design/mdi:user.svg?color=white">
+            </div>
+            <div class="user-info">
+                <span class="sidebar-text-res">Tchinda Randy</span>
+                <span class="sidebar-text-mail-res">tchindarandy41@gmail.com</span>
+            </div>
+
+        </div>
+
+        <!-- Saved Recipes -->
+        <div class="sidebar-item-container">
+            <img class="sidebar-icon" src="https://api.iconify.design/heroicons-outline:save.svg?color=white">
+            <span class="sidebar-text-res">Saved Recipes</span>
+        </div>
+    </div>
+
+    <div class="bottom-section-res">
+        <!-- Logout -->
+        <div class="sidebar-item-container">
+            <img class="sidebar-icon" src="https://api.iconify.design/material-symbols:logout-rounded.svg?color=white">
+            <span class="sidebar-text-res">Logout</span>
+        </div>
+    </div>
+</section>
+<!--
+
+Side bar on desktop
+
+-->
+
+<section class="side-bar">
+    <div class="top-section">
+        <!-- Toggle Button (The Menu Icon) -->
+         <div class="sidebar-mobile" onclick="showSidebar()">
+            <img class="sidebar-icon-mobile" src="image/mynaui_sidebar.svg">
+        </div>
+        <div class="sidebar-item-container toggle-btn" onclick="toggleSidebar()">
+            <img class="sidebar-icon" src="https://api.iconify.design/mynaui:sidebar.svg?color=white">
+            <span class="sidebar-text">Close Menu</span>
+        </div>
+
+        <!-- Add User -->
+        <div class="sidebar-item-container">
+            <div>
+                <img class="sidebar-icon" src="https://api.iconify.design/mdi:user.svg?color=white">
+            </div>
+            <div class="user-info">
+                <span class="sidebar-text">Tchinda Randy</span>
+                <span class="sidebar-text-mail">tchindarandy41@gmail.com</span>
+            </div>
+
+        </div>
+
+        <!-- Saved Recipes -->
+        <div class="sidebar-item-container">
+            <img class="sidebar-icon" src="https://api.iconify.design/heroicons-outline:save.svg?color=white">
+            <span class="sidebar-text">Saved Recipes</span>
+        </div>
+    </div>
+
+    <div class="bottom-section">
+        <!-- Logout -->
+        <div class="sidebar-item-container">
+            <img class="sidebar-icon" src="https://api.iconify.design/material-symbols:logout-rounded.svg?color=white">
+            <span class="sidebar-text">Logout</span>
+        </div>
+    </div>
+</section>
+<!--
+Search bar filter and filter menu html code
+
+-->
+<section class="search-filter-section">
+    <div class="display-type">
+        <!-- search box  -->
+        <div class="search-box">
+            <img src="image/tabler_search.svg" class="search-icon">
+            <input class="search" type="text" placeholder="Search for recipes (e.g Chicken)...">
+
+        </div>
+        <!-- Filter menu -->
+        <div class="filter" onclick="toggleFilterPopup()">
+            <img src="image/ion_filter.svg" class="filter-icon">
+            <p class="filter-paragraph">Filter</p>
+        </div>
+
+    </div>
+</section>
+<!--
+
+Filter pop-up html code
+
+-->
+
+<section class="filter-popup">
+    <!-- filter first group about the food type  -->
+    <div class="filter-group">
+        <h4>Group Type</h4>
+        <label class="checkbox">
+            <input type="checkbox" value="Family" class="filter-ch">Family Group
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" value="Individual" class="filter-ch">Individual
+        </label>
+    </div>
+    <!-- filter first group about the food time  -->
+    <div class="filter-group">
+        <h4>Meal Time</h4>
+        <label class="checkbox">
+            <input type="checkbox" value="Breakfast" class="filter-ch">Breakfast
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" value="Lunch" class="filter-ch">Lunch
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" value="Dinner" class="filter-ch">Dinner
+        </label>
+
+    </div>
+    <!-- botton to apply filter  -->
+    <div>
+        <h4>Enter your budget</h4>
+        <lable class="budget">
+            <input type="number" class="amount" placeholder="3000">FCFA
+        </lable>
+    </div>
+    <button class="apply-filter">Apply Filter</button>
+
+</section>
+<!--
+
+ Main HTML code carrying small food description
+
+ -->
+<main>
+    <!-- Section to provide a grid display to our layout  -->
+    <section class="grid-section">
+        <!-- recipe-card div to arrange each element as grid in the display -->
+         <div class="recipe-card">
+            <img class="recipe-img" src="unsplash_ngq7wIwybCk.png">
+
+            <div class="recipe-info">
+                <p class="recipe-name">Chicken and hot pepe</p>
+
+                <div class="chef-info">
+                    <img class="chef-profile" src="image/qlementine-icons_user-16.svg">
+                    <p class="chef-name">By Tchinda Randy</p>
+
+                    <div class="rating">
+                        <p class="rating-point">4.8</p>
+                        <img class="star-rating" src="image/iconamoon_star-fill.svg">
+                    </div>
+                </div>
+
+                <div class="type">
+                    <p>Family</p>
+                    <p>Lunch</p>
+                </div>
+            </div>
+        </div>
+         <div class="recipe-card">
+            <img class="recipe-img" src="unsplash_ngq7wIwybCk.png">
+
+            <div class="recipe-info">
+                <p class="recipe-name">Chicken and hot pepe</p>
+
+                <div class="chef-info">
+                    <img class="chef-profile" src="image/qlementine-icons_user-16.svg">
+                    <p class="chef-name">By Tchinda Randy</p>
+
+                    <div class="rating">
+                        <p class="rating-point">4.8</p>
+                        <img class="star-rating" src="image/iconamoon_star-fill.svg">
+                    </div>
+                </div>
+
+                <div class="type">
+                    <p>Family</p>
+                    <p>Lunch</p>
+                </div>
+            </div>
+        </div>
+         <div class="recipe-card">
+            <img class="recipe-img" src="unsplash_ngq7wIwybCk.png">
+
+            <div class="recipe-info">
+                <p class="recipe-name">Chicken and hot pepe</p>
+
+                <div class="chef-info">
+                    <img class="chef-profile" src="image/qlementine-icons_user-16.svg">
+                    <p class="chef-name">By Tchinda Randy</p>
+
+                    <div class="rating">
+                        <p class="rating-point">4.8</p>
+                        <img class="star-rating" src="image/iconamoon_star-fill.svg">
+                    </div>
+                </div>
+
+                <div class="type">
+                    <p>Family</p>
+                    <p>Lunch</p>
+                </div>
+            </div>
+        </div>
+         <div class="recipe-card">
+            <img class="recipe-img" src="unsplash_ngq7wIwybCk.png">
+
+            <div class="recipe-info">
+                <p class="recipe-name">Chicken and hot pepe</p>
+
+                <div class="chef-info">
+                    <img class="chef-profile" src="image/qlementine-icons_user-16.svg">
+                    <p class="chef-name">By Tchinda Randy</p>
+
+                    <div class="rating">
+                        <p class="rating-point">4.8</p>
+                        <img class="star-rating" src="image/iconamoon_star-fill.svg">
+                    </div>
+                </div>
+
+                <div class="type">
+                    <p>Family</p>
+                    <p>Lunch</p>
+                </div>
+            </div>
+        </div>
+         <div class="recipe-card">
+            <img class="recipe-img" src="unsplash_ngq7wIwybCk.png">
+
+            <div class="recipe-info">
+                <p class="recipe-name">Chicken and hot pepe</p>
+
+                <div class="chef-info">
+                    <img class="chef-profile" src="image/qlementine-icons_user-16.svg">
+                    <p class="chef-name">By Tchinda Randy</p>
+
+                    <div class="rating">
+                        <p class="rating-point">4.8</p>
+                        <img class="star-rating" src="image/iconamoon_star-fill.svg">
+                    </div>
+                </div>
+
+                <div class="type">
+                    <p>Family</p>
+                    <p>Lunch</p>
+                </div>
+            </div>
+        </div>
+         <div class="recipe-card">
+            <img class="recipe-img" src="unsplash_ngq7wIwybCk.png">
+
+            <div class="recipe-info">
+                <p class="recipe-name">Chicken and hot pepe</p>
+
+                <div class="chef-info">
+                    <img class="chef-profile" src="image/qlementine-icons_user-16.svg">
+                    <p class="chef-name">By Tchinda Randy</p>
+
+                    <div class="rating">
+                        <p class="rating-point">4.8</p>
+                        <img class="star-rating" src="image/iconamoon_star-fill.svg">
+                    </div>
+                </div>
+
+                <div class="type">
+                    <p>Family</p>
+                    <p>Lunch</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+</body>
+<script>
+    function toggleSidebar() {
+        document.body.classList.toggle('sidebar-open');
+    }
+    /* function to display the active keyword when the filter is clicked such that it
+    enables the appearance of the filter popup menu
+     */
+    function toggleFilterPopup() {
+    const popup = document.querySelector('.filter-popup');
+    popup.classList.toggle('active');
+}
+   function showSidebar(){
+        const show = document.querySelector('.responsive-menu');
+            show.style.display='block';
+   }
+   function hideSidebar(){
+        const hide = document.querySelector('.responsive-menu');
+        hide.style.display='none';
+   }
+   function showResp(){
+        const show =document.querySelector('.side-bar-responsive')
+        show.style.display='block'
+   }
+   function hideResp(){
+        const show =document.querySelector('.side-bar-responsive')
+        show.style.display='none'
+   }
+// Close the filter popup when clicking outside
+document.addEventListener('click', function(event) {
+    const popup = document.querySelector('.filter-popup');
+    const filterBtn = document.querySelector('.filter');
+
+    // Check if the click is NOT on the popup or the filter button
+    if (!popup.contains(event.target) && !filterBtn.contains(event.target)) {
+        popup.classList.remove('active'); // Close it
+    }
+});
+</script>
+</html>
