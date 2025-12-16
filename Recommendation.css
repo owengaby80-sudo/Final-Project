@@ -1,0 +1,469 @@
+/*          Header        */
+
+
+.logo{
+    width: 50px;
+    height: 50px;
+    margin-top:0;
+    margin-right: 10px;
+}
+.logo-name{
+    color: rgba(244, 244, 244, 0.97);
+    font-family: Lobster, Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.hearder-attribute{
+    display: inline-flex;
+    align-items: center;
+    gap: 67px;
+}
+a{
+    text-decoration: none;
+    color: rgba(244, 244, 244, 0.97);
+}
+li{
+    list-style-type: none;
+}
+.header_nav{
+    position: fixed;
+    left: 60px;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0;
+    height: 70px;
+    background: rgba(105, 208, 96, 1);
+    border-bottom: 2px solid rgba(96, 133, 72, 0.8);
+    z-index: 1000;
+     background-image: linear-gradient(rgba(0, 0, 0, 0.78), rgba(255, 255, 255, 0.76)),url("os-media-JDvQvdqITzs-unsplash.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+.logo-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 40px;
+}
+ul{
+    margin-right: 47px;
+
+}
+
+@media (max-width: 1400px) {
+    .header_nav{
+        height: 60px;
+        font-size: 14px;
+        left: 56px;
+    }
+
+
+}
+
+
+
+
+/*              Body Info                   */
+
+
+body{
+    padding-top: 90px;
+    padding-left: 70px;
+    font-family: Poppins;
+    background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.6)),url("os-media-JDvQvdqITzs-unsplash.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+:root {
+    /* Define widths for animation */
+    --sidebar-closed-width: 70px;
+    --sidebar-open-width: 260px;
+
+}
+
+/* 1. The Container */
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: rgb(239, 139, 23); /* Your Orange Color */
+    width: var(--sidebar-closed-width);   /* Start small (70px) */
+    transition: width 0.3s ease;          /* Animate width changes */
+    z-index: 11000;
+    overflow-x: hidden;                   /* Hide text when closed */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+/* 2. The Items (Icon + Text) */
+.sidebar-item-container {
+    display: flex;
+    align-items: center;
+    padding: 15px 0 15px 22px; /* Centers the icon */
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.user-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-item-container:hover {
+    background-color: rgba(255,255,255,0.2);
+
+}
+.saved-recipe:hover .more-options{
+    display: block;
+}
+.sidebar-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px; /* Prevents squishing */
+}
+
+/* 3. The Text (Hidden by default) */
+.sidebar-text{
+    margin-left: 20px;
+    color: white;
+    font-weight: 500;
+    opacity: 0; /* Invisible */
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.sidebar-text-mail {
+    margin-left: 24px;
+    color: white;
+    font-weight: 500;
+    opacity: 0; /* Invisible */
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    font-size: 12px;
+}
+
+
+
+.saved-recipes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.saved-recipe {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 0;
+    transition: background 0.2s, opacity 0.3s ease;
+    position: relative;
+    cursor: pointer;
+      white-space: nowrap;
+    opacity: 0;
+}
+
+.saved-recipe:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Hide three-dot menu initially */
+.more-options {
+    display: none;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+/* Show three-dot menu on hover */
+.saved-recipe:hover .more-options {
+    display: inline-block;
+}
+
+/* Hide delete button initially */
+.delete-btn {
+    position: absolute;
+    top: -26px;
+    right: 0px; /* next to the dots */
+    background: rgba(255, 255, 255, 0.34);
+    color: red;
+    padding: 4px 20px;
+    border-radius: 5px;
+    font-size: 12px;
+    display: none;
+}
+.food-saved{
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-left: 57px;
+     opacity: 0;
+}
+
+
+/* Show delete button when dots are clicked (JS) */
+.saved-recipe.show-delete .delete-btn {
+    display: block;
+}
+
+
+/* 4. The "Open" State (Triggered by JS) */
+body.sidebar-open .side-bar {
+    width: var(--sidebar-open-width); /* Expands to 240px */
+}
+
+body.sidebar-open .sidebar-text{
+    opacity: 1; /* Becomes visible */
+}
+body.sidebar-open .saved-recipe{
+    opacity: 1; /* Becomes visible */
+}
+body.sidebar-open .food-saved{
+    opacity: 1; /* Becomes visible */
+}
+body.sidebar-open .sidebar-text-mail{
+    opacity: 1;
+}
+
+/* Push the body content when sidebar opens */
+body.sidebar-open {
+    padding-left: var(--sidebar-open-width);
+}
+/* Push the header when sidebar opens */
+body.sidebar-open .header_nav {
+    padding-left: var(--sidebar-open-width);
+}
+/* SECTION WRAPPER */
+.search-filter-section {
+    width: 100%;
+    padding: 10px;
+
+}
+
+/* MAIN CONTAINER */
+.display-type {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    justify-content: space-between;
+
+}
+
+
+
+/*
+
+code to hide the header
+
+ */
+
+.responsive-menu{
+    display: none;
+    position: fixed;
+    left: auto;
+    top: -20px;
+    right: -46px;
+    width: 240px;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.74);
+    backdrop-filter: blur(12px);
+    z-index: 90000;
+    transition: background-color 0.2s, border-radius 0.2s;
+}
+.l11{
+    margin-left: -40px;
+    margin-top: 4px;
+    padding: 16px 50px;
+    color: rgba(154, 108, 22, 0.76);
+    font-size: 14px;
+
+}
+
+.l11:hover:not(img){
+    background-color: rgba(244, 244, 244, 0.15);
+    border-radius: 0;
+}
+.menu{
+    display: none;
+}
+@media (max-width: 900px) {
+    .hearder-attribute .l1{
+        display: none;
+    }
+    .menu{
+        display: block;
+    }
+    body{
+        margin-top: -20px;
+    }
+}
+
+
+
+
+
+.sidebar-mobile{
+    display:none;
+    margin-left: 20px;
+   margin-top: -4px;
+
+}
+
+
+
+
+/* Hide sidebar on screens smaller than 900px */
+
+
+
+
+.side-bar-responsive{
+    background-color: rgba(239, 139, 23,1);
+    position:fixed;
+    left: 0;
+    top:0;
+    bottom: 0;
+    display: none;
+    width: 280px;
+    z-index:100000;
+}
+
+.top-section-res{
+       display: flex;
+         flex-direction: column;
+         color: white ;
+}
+
+.sidebar-text-res {
+    padding-left: 10px;
+    color: white;
+
+}
+.sidebar-text-mail-res{
+    font-size: 12px;
+    margin-left: 10px;
+}
+.sidebar-text-mail{
+    margin-left: 10px;
+}
+.bottom-section-res{
+    position: fixed;
+    bottom: 10px;
+    width: 280px;
+
+}
+.sidebar-mobile{
+    display: none;
+    position: fixed;
+    left: -8px;
+    top:10px;
+}
+@media (max-width: 900px) {
+    .side-bar {
+        display: none;
+    }
+    .sidebar-mobile{
+        display: block;
+    }
+    body{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .sidebar- mobile{
+        display: block;
+    }
+    body.sidebar-open .header_nav {
+    padding-left: 10px
+}
+
+}
+/*
+overlay to hide the remaining of the screen when the side bar is open
+ */
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(16, 16, 16, 0.43); /* semi-transparent black */
+  display: none; /* hidden by default */
+  z-index: 0; /* below the sidebar */
+}
+
+
+/* ===== SPECIAL RECOMMENDATIONS FORM ===== */
+.form-container {
+    width: 400px;
+    margin: 120px auto;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+}
+
+.form-container h2 {
+    background: #6bb757;
+    padding: 12px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    text-align: left;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input,
+select {
+    padding: 12px;
+    border-radius: 30px;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
+}
+
+select {
+    appearance: none;
+    background: white url('data:image/svg+xml;utf8,<svg fill="gray" height="20" width="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><polygon points="0,0 20,0 10,12"/></svg>') no-repeat right 15px center;
+    background-size: 15px;
+}
+
+button {
+    padding: 12px;
+    border-radius: 30px;
+    background: #f1f1f1;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #ddd;
+}
+
+
+
