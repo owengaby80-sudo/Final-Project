@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started | Chef Roots</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #69d060;
+            --primary-orange: #ef8b17;
+            --dark-forest: #1b3022;
+            --light-cream: #fcfdfc;
+            --accent-peach: #fff4e6;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(27, 48, 34, 0.8), rgba(27, 48, 34, 0.8)), 
+                        url('mushroom.jpg') center/cover no-repeat fixed;
+            color: white;
+            padding: 40px 20px;
+        }
+
+        /* --- HEADER SECTION --- */
+        .header-area {
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 800px;
+        }
+
+        .header-area h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -0.02em;
+        }
+
+        .header-area p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* --- CARD CONTAINER --- */
+        .card-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* --- THE PROFESSIONAL CARD --- */
+        .choice-card {
+            position: relative;
+            width: 320px;
+            height: 420px;
+            background: var(--glass);
+            border-radius: 40px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        /* Hover Elevation */
+        .choice-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            border-color: var(--primary-orange);
+        }
+
+        /* --- FRONT CONTENT --- */
+        .card-front {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 40px;
+            transition: 0.5s ease;
+        }
+
+        .card-front img {
+            width: 140px;
+            height: auto;
+            margin-bottom: 30px;
+            transition: 0.5s ease;
+        }
+
+        .card-front h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark-forest);
+            font-size: 1.6rem;
+            transition: 0.5s ease;
+        }
+
+        /* --- BACK CONTENT (The Reveal) --- */
+        .card-back {
+            position: absolute;
+            inset: 0;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(27, 48, 34, 0.85) 0%, var(--dark-forest) 100%);
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .card-back p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* --- ACTIONS --- */
+        .btn-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .btn-outline {
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .btn:hover {
+            background: var(--primary-orange);
+            border-color: var(--primary-orange);
+            transform: translateY(-2px);
+        }
+
+        /* --- HOVER TRIGGERS --- */
+        .choice-card:hover .card-front {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .choice-card:hover .card-back {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 480px) {
+            .header-area h1 { font-size: 2.2rem; }
+            .choice-card { 
+                width: 290px; 
+                height: 380px; 
+            }
+            
+            /* On mobile, cards auto-reveal slightly after load for friendliness */
+            .choice-card .card-back {
+                animation: mobileAutoReveal 0.8s forwards;
+            }
+            .card-us .card-back { animation-delay: 1.5s; }
+            .card-ch .card-back { animation-delay: 2.2s; }
+        }
+
+        @keyframes mobileAutoReveal {
+            from { opacity: 0; transform: translateY(100%); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Mobile specific front-hide */
+        @media (max-width: 480px) {
+            @keyframes mobileHideFront { to { opacity: 0; } }
+            .card-us .card-front { animation: mobileHideFront 0.5s forwards 1.5s; }
+            .card-ch .card-front { animation: mobileHideFront 0.5s forwards 2.2s; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-area">
+        <h1>Welcome to Chef Roots</h1>
+        <p>Whether you're here to discover healthy meals or showcase your culinary expertise, your journey starts here.</p>
+    </header>
+
+    <main class="card-container">
+
+        <div class="choice-card card-us">
+            <div class="card-front">
+                <img src="employees.png" alt="Individual Icon">
+                <h2>I'm an Individual</h2>
+            </div>
+            <div class="card-back">
+                <p>Discover personalized meal plans, order from local talent, and eat healthy within your budget.</p>
+                <div class="btn-stack">
+                    <a href="User_SignUp_Page.html" class="btn btn-primary">Create Account</a>
+                    <a href="LOGIN PAGE.html" class="btn btn-outline">Sign In</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="choice-card card-ch">
+            <div class="card-front">
+                <img src="chef.png" alt="Chef Icon">
+                <h2>I'm a Chef</h2>
+            </div>
+            <div class="card-back">
+                <p>Grow your business, share your unique recipes, and reach customers looking for your specific skills.</p>
+                <div class="btn-stack">
+                    <a href="Pro_SignUp_Page.html" class="btn btn-primary">Join as Pro</a>
+                    <a href="LOGIN PAGE.html" class="btn btn-outline">Chef Login</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer style="margin-top: 60px; opacity: 0.6; font-size: 0.8rem;">
+        &copy; 2025 Chef Roots. All Culinary Rights Reserved.
+    </footer>
+
+</body>
+</html>

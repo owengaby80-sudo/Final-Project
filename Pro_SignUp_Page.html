@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Responsive Signup</title>
+  <style>/* ===== CSS Variables ===== */
+    :root {
+      --bg: linear-gradient(0deg, #e5fdf3, #e7edfe, #ffecf8);
+      --card-bg: rgba(255, 255, 255, 0.55);
+      --input-bg: rgba(255, 255, 255, 0.4); /* 40% opacity */
+      --muted: #777;
+      --accent: #a9f2c9c1; /* green for success */
+      --notice: #49ab73;
+      --btn-login: #d88474;
+      --orange: #f6a079;
+      --dark-orange: #a66445;
+      --danger: #ad2f2bd8;
+      --light: #ffffff;
+    }
+    
+    /* ===== Global Styles ===== */
+    * {
+      box-sizing: border-box;
+    }
+    
+    html,
+    body {
+      height: 100%;
+    }
+    
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      display: flex;
+      background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('pexels-farhad.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: default;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+    
+      }
+    }
+    
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 0.6;
+        transform: translateY(0);
+      }
+    }
+    
+    .container {
+      display: flex;
+      width: 100%;
+      max-width: 920px;
+      position: relative; /* needed for overlay */
+      border-radius: 15px;
+      -webkit-backdrop-filter: blur(6px) saturate(120%);
+      backdrop-filter: blur(6px) saturate(120%);
+      border-color: var(--orange) !important;
+      box-shadow: 0 0 0 7px rgba(217, 83, 79, 0.1) !important;
+    }
+    
+    .container, .section-greeting-img .box{ 
+      border-radius: 15px; 
+    }
+    
+    /* dark overlay so text is readable (70% darkness) */
+    .container::before{
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.42);
+      z-index: 0;
+    }
+    
+    .section-greeting-img {
+      /* larger visual section on the left with transparent background so container image shows */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 28px;
+      color: #fff;
+      border-radius: 15px;
+    }
+    
+    .section-greeting-img h1 {
+      align-self: center;
+      font-size: 40px;
+      font-family: "Inter", sans-serif;
+      margin: 0 0 8px 0;
+      color: #fff;
+    }
+    
+    .section-greeting-img h2 {
+      align-self: center;
+      font-family: "Inter", sans-serif;
+      margin: 0;
+      color: #fff;
+    }
+    
+    /* make greeting area wider than the form */
+    .section-greeting-img{
+      flex: 1.4;
+    }
+    .section-card{
+      flex: 1.6;
+    }
+    
+    input[type="checkbox"]{
+      accent-color: var(--orange);
+    }
+    
+    .section-greeting-img, .section-card{
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* ===== Card Container ===== */
+    .box {
+      padding: 30px 35px;
+      position: relative; /* sit above overlay */
+      z-index: 1;
+    }
+    
+    a {
+      text-decoration: none;
+      text-align: center;
+      align-self: center;
+      justify-self: center;
+    }
+    .section-greeting-img .box {
+      border-radius: 12px;
+    }
+    
+    .section-card {
+      margin: 2.8px;
+      background: rgba(248, 237, 230, 0.92);
+      border-radius: 0 15px 15px 0;
+    }
+    .section-card h1 {
+      margin: 0 0 10px 0;
+      text-align: center;
+      font-size: 28px;
+      color: #494646;
+    }
+    
+    /* ===== Form Fields ===== */
+    .field {
+      margin-bottom: 16px;
+    }
+    
+    .field .username {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .pw-wrap { position: relative; }
+    .pw-toggle {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      padding: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .pw-toggle img { 
+      width: 16px; 
+      height: 16px; 
+      display: block;
+      opacity: 0.6; 
+    }
+    .visually-hidden { 
+      position: absolute !important;
+      height: 1px; 
+      width: 1px;
+      overflow: hidden;
+      clip: rect(1px,1px,1px,1px);
+      white-space: nowrap; 
+      border: 0; 
+      padding: 0; 
+      margin: -1px; 
+    }
+    
+    .field label {
+      color: #312d2d;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13.7px;
+      font-weight: normal;
+      animation: fadeInDown 0.7s ease-out 0.2s backwards;
+    }
+    
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="password"],
+    .field input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 3px;
+      border: 2px solid var(--light);
+      background: var(--light);
+      outline: none;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: "Inter", sans-serif;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px); 
+      transition: ease 0.5s;
+      animation: fadeInDown 2s ease-out 0.2s backwards;
+    }
+    
+    .field input:focus, .field input:hover {
+      background: var(--light);
+      border-color: var(--orange);
+      box-shadow: 0 0 0 5px rgba(246, 160, 121, 0.2);
+    }
+    
+    .hint {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .pw {
+      cursor: pointer;
+    }
+    
+    /* label icons (placed before the label text) */
+    .label-icon{
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+      margin-bottom: 4px;
+    }
+    
+    .show-hide:focus {
+      transform: rotateX(0);
+    }
+    
+    .show-hide:active {
+      transition: transform 0.4s;
+      transform: rotate(-180deg);
+    }
+    
+    /* ===== Checkbox Field ===== */
+    .checkbox-field {
+      display: flex;
+      align-items: center;
+      margin: 28px 0;
+      gap: 10px;
+    }
+    
+    #agree {
+      cursor: pointer;
+    }
+    
+    .checkbox-field .notice {
+      color: var(--dark-orange);
+    }
+    
+    .checkbox-field a {
+      text-decoration: none;
+      font-weight: normal;
+      color: var(--dark-orange);
+    }
+    
+    .checkbox-field input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+    
+    /* ===== Buttons ===== */
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      background: linear-gradient(180deg,var(--btn-login), #c9655a);
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    
+    button[type="submit"]:hover {
+      background: linear-gradient(180deg,var(--btn-login), #c9655a);
+      border-color: var(--orange);
+      box-shadow: 0 0 0 5px rgba(246, 160, 121, 0.2);
+    }
+    
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      animation: slideInUp 0.6s ease-out 0.4s backwards;
+    }
+    
+    .login-opt {
+      display: flex;
+      margin: 10px 0 0 0;
+      justify-content: space-around;
+    }
+    
+    .login-opt p {
+      margin-left: 0;
+      color: #000;
+      font-size: 13px;
+      font-weight: normal;
+    }
+    
+    .login-opt a {
+      text-decoration: none;
+      color: var(--dark-orange);
+      transition: transform 1s;
+    }
+    
+    .login-opt .login {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 18px;
+      font-weight: normal;
+      text-align: center;
+      align-content: center;
+    }
+    .login:hover {
+      border-color: var(--orange);
+      text-shadow: 5px rgba(246, 160, 121, 0.2);
+    }
+
+    .greeting-link {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    .username .field {
+      flex: 1;
+    }
+    
+    /* ===== Three Column Layout ===== */
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .three-col .field {
+      flex: 1;
+    }
+    
+    /* ===== Validation Classes ===== */
+    
+    .input-invalid {
+      border-color: var(--danger) !important;
+      box-shadow: 0 0 0 7px rgba(217, 83, 79, 0.1) !important;
+    }
+    
+    
+    /* ===== Responsive Design ===== */
+    @media (max-height: 729px) {
+  html, body {
+    min-height: 100vh;
+    height: auto;
+  }
+  
+  body {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('pexels-farhad.jpg');
+    padding: 12px; /* reduce padding */
+    align-items: center;
+    overflow: hidden;
+    justify-content: center;
+  }
+
+  /* Resize container */
+  .container { 
+    max-width: 880px;/* smaller width */
+    min-height: 450px; /* reduce height */
+  }
+
+  /* Greeting section */
+  .section-greeting-img {
+    padding: 15px;
+    font-size: 0.9rem;
+    flex: 1; /* adjust height proportion */
+  }
+
+  /* Card section */
+  .section-card {
+    padding: 18px 25px;
+    flex: 1; /* adjust height proportion */
+    border-radius: 12px;
+  }
+
+  /* Inputs resize */
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="password"],
+  .field input[type="number"] {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  select {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Buttons resize */
+  button[type="submit"] {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  /* Optional: reduce image/logo sizes */
+  .label-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+    @media (max-width: 900px) {
+      html,
+    body {
+      min-height: 100vh;
+      height: auto;
+    }
+      body {
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.75)), url('pexels-farhad.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 24px;
+        overflow: scroll;
+      }
+      /* stack sections vertically and let the background show through */
+      .container { 
+        flex-direction: column; 
+        max-width: 600px; 
+        
+      }
+      
+      .section-greeting-img { 
+        border-radius: 15px 15px 0 0; 
+        padding: 20px; 
+        background-position-y: bottom;
+      }
+      .section-card { 
+        border-radius: 15px; 
+        margin-top: -12px; 
+        background: rgba(248, 237, 230, 0.92); 
+      }
+      .container::before { 
+        background: rgba(0,0,0,0.18); 
+      }
+    
+      /* move the welcome message up slightly and keep it visible */
+      .section-greeting-img h1 { 
+        transform: translateY(-8px); 
+        font-size: 28px; 
+      }
+      .section-greeting-img h2 { 
+        transform: translateY(-4px); 
+        font-size: 15px; 
+      }
+    
+      .two-col { 
+        display: block; 
+      }
+      .username { 
+        grid-template-columns: 1fr; 
+      }
+    }
+    
+    @media (max-width: 420px) {
+      html,
+    body {
+      min-height: 100vh;
+      height: auto;
+    }
+      body{
+        margin: 0;
+        padding: 0;
+        overflow: scroll;
+      }
+      .container {
+        margin: 20% 0 0 0;
+        -webkit-backdrop-filter: blur(2px) saturate(120%);
+        backdrop-filter: blur(2px) saturate(120%);
+      }
+      
+      .container::before{
+        content: '';
+        background: rgba(0, 0, 0, 0.237);
+        z-index: 0;
+      }
+    
+      .box {
+        padding: 30px 35px;
+        -webkit-backdrop-filter: blur(1px);
+        backdrop-filter: blur(1px);
+      }
+      
+      .section-greeting-img h1 { 
+        font-size: 25px;
+      }
+      .section-greeting-img h2 { 
+        font-size: 18px; 
+      }
+      .section-card {  
+        margin: 0;
+        padding: 18px 18px 28px 18px; 
+        border-radius: 15px 15px 0 0;
+        border-color: transparent !important;
+        box-shadow: none !important;
+      }
+      
+     .field label {
+        font-size: 12.7px;
+     }
+      
+     .field input[type="text"],
+     .field input[type="email"],
+     .field input[type="password"],
+     .field input[type="number"] {
+       padding: 12px 14px;
+       font-size: 13px;
+     }
+     select {
+      padding: 12px 14px;
+    }
+     .pw-toggle img { 
+       width: 15px; 
+       height: 15px; 
+     }
+     .label-icon{
+       width: 16px;
+       height: 16px;
+     }
+    
+    }
+    </style>
+</head>
+<body>
+  <main class="container">
+   <div class="section-greeting-img box">
+  <h1><a href="https://example.com" class="greeting-link">HI, Welcome !</a></h1>
+  <h2><a href="https://example.com" class="greeting-link">Sign Up to get Started</a></h2>
+</div>
+
+    <div class="section-card box">
+      <form id="signupForm" method="POST" novalidate>
+      <h1>Sign Up</h1>
+
+      <div class="row two-col">
+        <div class="field">
+          <label for="firstName"><img class="label-icon" src="user.svg" alt="">Username</label>
+          <div class="username">
+            <input id="firstName" name="firstName" type="text" placeholder="First name" required autocomplete="given-name"/>
+            <input id="lastName" name="lastName" type="text" placeholder="Last name" required autocomplete="family-name"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email"><img class="label-icon" src="mail.png" alt="">Email</label>
+        <input id="email" name="email" type="email" placeholder="Enter a valid email" required autocomplete="email"/>
+      </div>
+
+      <div class="field">
+        <label for="password"><img class="label-icon" src="locked-computer.png" alt="">Password</label>
+        <div class="pw-wrap">
+          <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="new-password" required />
+          <button type="button" class="pw-toggle" aria-label="Show password">
+            <img src="view.png" class="show-hide" alt="Show"/>
+            <span class="visually-hidden">Show password</span>
+          </button>
+        </div>
+        <small class="hint pw">Password length must be &gt; 6 and &lt; 23 characters.</small>
+      </div>
+
+      <div class="field">
+        <label for="confirm"><img class="label-icon" src="locked-computer.png" alt="">Confirm password</label>
+        <div class="pw-wrap">
+          <input id="confirm" name="confirm" type="password" placeholder="Re-enter your password" autocomplete="new-password" required />
+          <button type="button" class="pw-toggle" aria-label="Show confirm password">
+            <img src="view.png" class="show-hide" alt="Show"/>
+            <span class="visually-hidden">Show confirm password</span>
+          </button>
+        </div>
+      </div>
+      
+       <div class="field">
+        <label for="years"><img class="label-icon" src="calendar.svg" alt="">Years of experience</label>
+        <input id="years" name="years" type="number" required min="0" step="1" placeholder="This field is optional." />
+      </div>
+
+      <div class="field checkbox-field">
+        <input id="agree" name="agree" type="checkbox" />
+        <label for="agree">I agree to the <a href="" class="notice">Terms of Service</a> and <a href="" class="notice">Privacy Police</a></label>
+      </div>
+
+      <button id="createBtn" type="submit" disabled>Create account</button>
+
+     <div class="login-opt">
+       <p>Already have an account?</p>
+       <a href="LOGIN PAGE.html" class="login">Login</a> 
+     </div>
+
+    </form>
+    </div>
+  </main>
+
+  <script>
+    /**
+ * Pro_SignUp_Page.js
+ * 
+ * Handles form validation and submission for the signup form.
+ * Features:
+ * - Real-time field validation
+ * - Password strength checking
+ * - Password confirmation matching
+ * - Years of experience validation
+ * - Form submission to API endpoint
+ */
+
+// ===== DOM ELEMENTS =====
+const form = document.getElementById('signupForm');
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const email = document.getElementById('email');
+const years = document.getElementById('years');
+const password = document.getElementById('password');
+const confirm = document.getElementById('confirm');
+const agree = document.getElementById('agree');
+const createBtn = document.getElementById('createBtn');
+
+// ===== PASSWORD VISIBILITY TOGGLES (image-based) =====
+function initPasswordToggles() {
+  const toggles = document.querySelectorAll('.pw-toggle');
+  const viewSrc = 'view.png';
+  const hideSrc = 'hide.png';
+  toggles.forEach(btn => {
+    const wrap = btn.parentElement;
+    const input = wrap ? wrap.querySelector('input') : null;
+    if (!input) return;
+
+    // set initial image (assume input starts masked)
+    btn.querySelector('img').src = viewSrc;
+
+    const update = () => {
+      const img = btn.querySelector('img');
+      if (!img) return;
+      if (input.type === 'password') {
+        img.src = viewSrc;
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', input.id === 'confirm' ? 'Show confirm password' : 'Show password');
+      } else {
+        img.src = hideSrc;
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label', input.id === 'confirm' ? 'Hide confirm password' : 'Hide password');
+      }
+    };
+
+    btn.addEventListener('click', () => {
+      input.type = input.type === 'password' ? 'text' : 'password';
+      update();
+      if (input.id === 'password') { validatePasswordLength(); validateConfirmMatch(); }
+      else if (input.id === 'confirm') { validateConfirmMatch(); }
+      checkFormValidity();
+    });
+
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+    });
+  });
+}
+
+// ===== VALIDATION HELPER FUNCTIONS =====
+
+/**
+ * Add valid state styling to input element
+ * @param {HTMLElement} el - Input element to mark as valid
+ */
+function setValid(el) {
+  el.classList.add('input-valid');
+  el.classList.remove('input-invalid');
+}
+
+/**
+ * Add invalid state styling to input element
+ * @param {HTMLElement} el - Input element to mark as invalid
+ */
+function setInvalid(el) {
+  el.classList.add('input-invalid');
+  el.classList.remove('input-valid');
+}
+
+/**
+ * Remove all validation styling from input element
+ * @param {HTMLElement} el - Input element to reset
+ */
+function setNeutral(el) {
+  el.classList.remove('input-invalid');
+  el.classList.remove('input-valid');
+}
+
+// ===== FIELD-SPECIFIC VALIDATION FUNCTIONS =====
+
+/**
+ * Validate email format
+ * Must contain @ followed by domain name
+ * @returns {boolean} - True if email is valid
+ */
+function validateEmail() {
+  const emailValue = email.value || '';
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  if (emailValue.length === 0) {
+    setNeutral(email);
+    return false;
+  }
+  
+  if (emailRegex.test(emailValue)) {
+    setValid(email);
+    return true;
+  } else {
+    setInvalid(email);
+    return false;
+  }
+}
+
+/**
+ * Validate password length
+ * Password must be greater than 6 and less than 23 characters
+ * Changes color in real-time as user types
+ * @returns {boolean} - True if password is valid
+ */
+function validatePasswordLength() {
+  const value = password.value || '';
+  
+  if (value.length === 0) {
+    setNeutral(password);
+    return false;
+  }
+  
+  if (value.length > 6 && value.length < 23) {
+    setValid(password);
+    return true;
+  } else {
+    setInvalid(password);
+    return false;
+  }
+}
+
+/**
+ * Validate that confirm password matches password field
+ * Changes color in real-time as user types
+ * @returns {boolean} - True if passwords match
+ */
+function validateConfirmMatch() {
+  const passwordValue = password.value || '';
+  const confirmValue = confirm.value || '';
+  
+  if (confirmValue.length === 0) {
+    setNeutral(confirm);
+    return false;
+  }
+  
+  if (passwordValue === confirmValue && passwordValue.length > 0) {
+    setValid(confirm);
+    return true;
+  } else {
+    setInvalid(confirm);
+    return false;
+  }
+}
+
+/**
+ * Validate years of experience
+ * Years must be greater than 2
+ * Changes color in real-time as user types
+ * @returns {boolean} - True if years value is valid
+ */
+function validateYears() {
+  const value = Number(years.value);
+  
+  if (years.value === '') {
+    setNeutral(years);
+    return false;
+  }
+  
+  if (Number.isFinite(value) && value >= 1 && value < 90) {
+    setValid(years);
+    return true;
+  } else {
+    setInvalid(years);
+    return false;
+  }
+}
+
+// ===== BASIC TEXT FIELD VALIDATION =====
+
+/**
+ * Attach blur event to mark non-empty text fields as valid
+ * Also validates on input for real-time feedback
+ * @param {HTMLElement} el - Input element to attach event to
+ */
+function attachBlurGreen(el) {
+  // Real-time validation on input
+  el.addEventListener('input', () => {
+    if (el === email) {
+      validateEmail();
+    } else if ((el.value || '').toString().trim().length > 0) {
+      setValid(el);
+    } else {
+      setNeutral(el);
+    }
+    checkFormValidity();
+  });
+  
+  // Keep blur validation as fallback
+  el.addEventListener('blur', () => {
+    if (el === email) {
+      validateEmail();
+    } else if ((el.value || '').toString().trim().length > 0) {
+      setValid(el);
+    } else {
+      setNeutral(el);
+    }
+    checkFormValidity();
+  });
+}
+
+// Apply blur validation to basic text fields
+[firstName, lastName, email].forEach(attachBlurGreen);
+
+// ===== EVENT LISTENERS - REAL-TIME VALIDATION =====
+
+/**
+ * First name - Navigate to last name on Enter
+ */
+firstName.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    lastName.focus();
+  }
+});
+
+/**
+ * Last name - Navigate to email on Enter
+ */
+lastName.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    email.focus();
+  }
+});
+
+/**
+ * Email input event - validate email format
+ */
+email.addEventListener('input', () => {
+  validateEmail();
+  checkFormValidity();
+});
+
+/**
+ * Email - Navigate to years on Enter
+ */
+email.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    password.focus();
+  }
+});
+
+/**
+ * Years input event - validate on every input
+ */
+years.addEventListener('input', () => {
+  validateYears();
+  checkFormValidity();
+});
+
+/**
+ * Years - Navigate to password on Enter
+ */
+years.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    agree.focus();
+  }
+});
+
+/**
+ * Password input event - validate password and confirm match
+ */
+password.addEventListener('input', () => {
+  validatePasswordLength();
+  validateConfirmMatch();
+  checkFormValidity();
+});
+
+/**
+ * Password - Navigate to confirm password on Enter
+ */
+password.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    confirm.focus();
+  }
+});
+
+/**
+ * Confirm password input event - validate match
+ */
+confirm.addEventListener('input', () => {
+  validateConfirmMatch();
+  checkFormValidity();
+});
+
+/**
+ * Confirm password - Navigate to checkbox on Enter
+ */
+confirm.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    years.focus();
+  }
+});
+
+/**
+ * Checkbox change event - update form validity
+ */
+agree.addEventListener('change', checkFormValidity);
+
+/**
+ * Checkbox - Submit form on Enter if valid
+ */
+agree.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && createBtn.disabled === false) {
+    e.preventDefault();
+    form.dispatchEvent(new Event('submit'));
+  }
+});
+
+// ===== FORM VALIDITY CHECK =====
+
+/**
+ * Check overall form validity and enable/disable create button
+ * Button is enabled only when:
+ * - First name, last name, and email are filled
+ * - Email has valid format (@ and domain)
+ * - Password is valid (6-23 characters)
+ * - Confirm password matches password
+ * - Years of experience is valid (> 2)
+ * - Checkbox is checked
+ * @returns {boolean} - True if entire form is valid
+ */
+function checkFormValidity() {
+  const firstNameFilled = (firstName.value || '').trim().length > 0;
+  const lastNameFilled = (lastName.value || '').trim().length > 0;
+  const emailOk = validateEmail();
+  
+  const passOk = validatePasswordLength();
+  const matchOk = validateConfirmMatch();
+  const yearsOk = validateYears();
+  const checkboxOk = agree.checked;
+
+  const allGood = firstNameFilled && lastNameFilled && emailOk && passOk && matchOk && checkboxOk;
+  createBtn.disabled = !allGood;
+  
+  return allGood;
+}
+
+// ===== BLUR EVENT LISTENERS - MARK FILLED FIELDS =====
+
+/**
+ * Attach blur listeners to all form inputs
+ * Marks field as valid if filled, neutral if empty
+ * Real-time validation for password fields
+ */
+[firstName, lastName, email, password, confirm].forEach(el => {
+  el.addEventListener('input', () => {
+    if ((el.value || '').toString().trim().length > 0) {
+      // For email, use dedicated validation
+      if (el === email) {
+        validateEmail();
+      } else if (el === password) {
+        validatePasswordLength();
+      } else if (el === confirm) {
+        validateConfirmMatch();
+      } else {
+        setValid(el);
+      }
+    } else {
+      setNeutral(el);
+    }
+  });
+  
+  el.addEventListener('blur', () => {
+    if ((el.value || '').toString().trim().length > 0) {
+      // For email, use dedicated validation
+      if (el === email) {
+        validateEmail();
+      } else if (el === password) {
+        validatePasswordLength();
+      } else if (el === confirm) {
+        validateConfirmMatch();
+      } else {
+        setValid(el);
+      }
+    } else {
+      setNeutral(el);
+    }
+  });
+});
+
+// ===== FORM SUBMISSION =====
+
+/**
+ * Handle form submission
+ * Gathers form data and sends to API endpoint
+ * 
+ * SECURITY NOTE: In production, never send plain passwords to frontend.
+ * Always hash passwords on the server-side before storing in database.
+ */
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  
+  // Validate form before submission
+  if (!checkFormValidity()) {
+    alert('Please fix the highlighted fields.');
+    return;
+  }
+
+  // Prepare payload
+  const payload = {
+    firstName: firstName.value.trim(),
+    lastName: lastName.value.trim(),
+    email: email.value.trim(),
+    yearsExperience: Number(years.value),
+    // SECURITY: Never log or send passwords in plaintext to frontend
+    // Always hash on server-side before database storage
+    password: password.value,
+  };
+
+  try {
+    // Send POST request to backend API
+    const endpoint = '/api/create-account/pro'; // change if your API uses a different path
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      // Success: Reset form and provide feedback
+      alert('Account created successfully! Connect this to your backend database.');
+      
+      // Reset form
+      form.reset();
+      [firstName, lastName, email, years, password, confirm].forEach(setNeutral);
+      createBtn.disabled = true;
+    } else {
+      // Server error
+      const errorText = await response.text();
+      alert(`Server error: ${errorText}`);
+    }
+  } catch (error) {
+    // Network or connection error
+    console.error('Form submission error:', error);
+    alert('Network error or server not reachable. Check console for details.');
+  }
+});
+
+// ===== INITIALIZATION =====
+
+/**
+ * Initialize form state on page load
+ */
+initPasswordToggles();
+checkFormValidity();
+
+  </script>
+</body>
+</html>
