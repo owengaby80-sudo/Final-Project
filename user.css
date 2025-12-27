@@ -1,0 +1,594 @@
+
+
+/*          Header        */
+
+
+.logo{
+    width: 50px;
+    height: 50px;
+    margin-top:0;
+    margin-right: 10px;
+}
+.logo-name{
+    color: rgba(244, 244, 244, 0.97);
+    font-family: Lobster, Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.hearder-attribute{
+    display: inline-flex;
+    align-items: center;
+    gap: 67px;
+}
+a{
+    text-decoration: none;
+    color: rgba(244, 244, 244, 0.97);
+}
+li{
+    list-style-type: none;
+}
+.header_nav{
+    position: fixed;
+    left: 60px;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 0;
+    height: 70px;
+    background: rgba(105, 208, 96, 1);
+    border-bottom: 2px solid rgba(96, 133, 72, 0.8);
+    z-index: 1000;
+     background-image: linear-gradient(rgba(0, 0, 0, 0.78), rgba(255, 255, 255, 0.76)),url("os-media-JDvQvdqITzs-unsplash.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+.logo-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 40px;
+}
+ul{
+    margin-right: 47px;
+
+}
+
+@media (max-width: 1400px) {
+    .header_nav{
+        height: 60px;
+        font-size: 14px;
+        left: 56px;
+    }
+
+
+}
+
+
+/*              Body Info                   */
+
+
+body{
+    padding-top: 90px;
+    padding-left: 70px;
+    font-family: Poppins;
+    background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.6)),url("os-media-JDvQvdqITzs-unsplash.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+:root {
+    /* Define widths for animation */
+    --sidebar-closed-width: 70px;
+    --sidebar-open-width: 260px;
+
+}
+
+/* 1. The Container */
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: rgb(239, 139, 23); /* Your Orange Color */
+    width: var(--sidebar-closed-width);   /* Start small (70px) */
+    transition: width 0.3s ease;          /* Animate width changes */
+    z-index: 11000;
+    overflow-x: hidden;                   /* Hide text when closed */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+/* 2. The Items (Icon + Text) */
+.sidebar-item-container {
+    display: flex;
+    align-items: center;
+    padding: 15px 0 15px 22px; /* Centers the icon */
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.user-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-item-container:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.sidebar-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px; /* Prevents squishing */
+}
+
+/* 3. The Text (Hidden by default) */
+.sidebar-text{
+    margin-left: 20px;
+    color: white;
+    font-weight: 500;
+    opacity: 0; /* Invisible */
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.sidebar-text-mail {
+    margin-left: 24px;
+    color: white;
+    font-weight: 500;
+    opacity: 0; /* Invisible */
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    font-size: 12px;
+}
+
+/* 4. The "Open" State (Triggered by JS) */
+body.sidebar-open .side-bar {
+    width: var(--sidebar-open-width); /* Expands to 240px */
+}
+
+body.sidebar-open .sidebar-text  {
+    opacity: 1; /* Becomes visible */
+}
+body.sidebar-open .sidebar-text-mail{
+    opacity: 1;
+}
+
+/* Push the body content when sidebar opens */
+body.sidebar-open {
+    padding-left: var(--sidebar-open-width);
+}
+/* Push the header when sidebar opens */
+body.sidebar-open .header_nav {
+    padding-left: var(--sidebar-open-width);
+}
+/* SECTION WRAPPER */
+.search-filter-section {
+    width: 100%;
+    padding: 10px;
+
+}
+
+/* MAIN CONTAINER */
+.display-type {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    justify-content: space-between;
+
+}
+
+/* SEARCH BOX */
+.search-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 2px solid #69d060;
+    border-radius: 25px;
+    padding: 2px 12px;
+    position: relative;
+    height: 50px;
+    margin-left: 20px;
+}
+
+.search-icon {
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+    opacity: 0.7;
+}
+
+.search {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+/* FILTER BUTTON */
+.filter {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 2px solid #69d060;
+    border-radius: 25px;
+    padding: 4px 8px;
+    min-width: 100px;
+    cursor: pointer;
+    margin-right: 40px;
+     height: 46px;
+}
+
+.filter-icon {
+    width: 17px;
+    height: 17px;
+    opacity: 0.7;
+    margin-right: 10px;
+}
+
+.filter-paragraph {
+    font-size: 16px;
+    display: inline-block;
+}
+
+
+/* ---------------------------------- */
+/* RESPONSIVENESS */
+/* ---------------------------------- */
+
+/* Tablets */
+@media (max-width: 900px) {
+     .filter-paragraph {
+        display: none;
+
+    }
+    .display-type {
+        gap: 10px;
+    }
+    .search-box{
+        height: 38px;
+    }
+    .filter {
+
+        padding: 6px 10px;
+        height: 29px;
+        min-width: 50px;  /* smaller width */
+        justify-content: center;
+    }
+
+}
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+    .display-type {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .filter,
+    .search-box {
+        width: 100%;
+    }
+    .search-input,
+    .filter-paragraph {
+        font-size: 14px;
+    }
+    .search-icon,
+    .filter-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+.filter-popup{
+    position: absolute;
+    top: 170px;
+    right: 34px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    width: 250px;
+    display: none;
+    z-index: 100;
+}
+.filter-group{
+    display: flex;
+    flex-direction: column;
+    margin-top: -10px;
+}
+
+
+.checkbox{
+    display: flex;
+    font-size: 12px;
+    opacity: 0.8;
+}
+.filter-ch{
+    width: 20px;
+}
+
+.filter-popup.active{
+    display: block;
+}
+.budget{
+    font-size: 14px;
+    font-weight: bold;
+}
+.amount{
+    border-radius: 4px;
+    background: rgba(246, 246, 246, 0.68);
+    padding: 5px 10px;
+    border: 1px solid #2eb82e;
+      outline: none;
+}
+.amount input{
+      outline: none;
+}
+.apply-filter{
+    margin-right: 10px;
+    margin-left: 0;
+    width: 230px;
+    margin-top: 15px;
+    padding: 8px 0;
+    border: none;
+    background-color:#2eb82e ;
+    font-weight: bold;
+    font-family: Poppins;
+    border-radius: 10px;
+}
+.apply-filter:hover{
+    cursor: pointer;
+}
+@media (max-width: 900px){
+    .filter-popup{
+        top: 130px;
+        right: 34px;
+        width: 200px;
+    }
+    .apply-filter{
+        width: 190px;
+    }
+}
+.grid-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px 30px;
+    box-sizing: border-box;
+}
+
+/* CARD */
+.recipe-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    max-width: 300px;
+    min-width: 200px;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+}
+
+/* IMAGE */
+.recipe-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* INFO SECTION */
+.recipe-info {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* TITLE */
+.recipe-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* CHEF SECTION */
+.chef-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* prevents shifting */
+    gap: 8px;
+}
+
+.chef-profile {
+    width: 22px;
+}
+
+.chef-name {
+    font-size: 13px;
+}
+
+/* RATING */
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.rating-point {
+    font-size: 13px;
+}
+
+.star-rating {
+    width: 16px;
+}
+
+/* FOOD TYPE TAGS */
+.type {
+    display: flex;
+    gap: 12px;
+}
+
+.type p {
+    background: rgba(128,128,128,0.15);
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 12px;
+    margin: 0;
+}
+
+/* MOBILE FIXES */
+@media (max-width: 500px) {
+
+    .recipe-img {
+        height: 200px;
+    }
+
+    .chef-info {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+}
+/*
+
+code to hide the header
+
+ */
+
+.responsive-menu{
+    display: none;
+    position: fixed;
+    left: auto;
+    top: -20px;
+    right: -46px;
+    width: 240px;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.74);
+    backdrop-filter: blur(12px);
+    z-index: 9000;
+    transition: background-color 0.2s, border-radius 0.2s;
+}
+.l11{
+    margin-left: -30px;
+    margin-right: 10px;
+    margin-top: 4px;
+    padding: 16px 50px;
+    color: rgba(154, 108, 22, 0.76);
+    font-size: 14px;
+
+}
+
+.l11:hover:not(img){
+    background-color: rgba(244, 244, 244, 0.15);
+    border-radius: 10px;
+}
+.menu{
+    display: none;
+}
+@media (max-width: 900px) {
+    .hearder-attribute .l1{
+        display: none;
+    }
+    .menu{
+        display: block;
+    }
+    body{
+        margin-top: -20px;
+    }
+}
+
+
+
+
+
+.sidebar-mobile{
+    display:none;
+    margin-left: 20px;
+   margin-top: -4px;
+
+}
+
+
+
+
+/* Hide sidebar on screens smaller than 900px */
+
+
+
+
+.side-bar-responsive{
+    background-color: blue;
+    position:fixed;
+    left: 0;
+    top:0;
+    bottom: 0;
+    display: none;
+    width: 280px;
+    z-index:100000;
+}
+
+.top-section-res{
+       display: flex;
+         flex-direction: column;
+         color: white ;
+}
+
+.sidebar-text-res {
+    padding-left: 10px;
+    color: white;
+
+}
+.sidebar-text-mail-res{
+    font-size: 12px;
+    margin-left: 10px;
+}
+.sidebar-text-mail{
+    margin-left: 10px;
+}
+.bottom-section-res{
+    position: fixed;
+    bottom: 10px;
+    width: 280px;
+
+}
+.sidebar-mobile{
+    display: none;
+    position: fixed;
+    left: -8px;
+    top:10px;
+}
+@media (max-width: 900px) {
+    .side-bar {
+        display: none;
+    }
+    .sidebar-mobile{
+        display: block;
+    }
+    body{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .sidebar- mobile {
+        display: block;
+    }
+
+}
+
