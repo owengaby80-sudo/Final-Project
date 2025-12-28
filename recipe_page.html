@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit Recipe</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --bg: #7a7a7a;
+      --card: #e9e9e9;
+      --accent: #f6a079;
+      --btn-login: #d88474;
+      --orange: #f6a079;
+      --text: #333;
+      --muted: #625e5e;
+      --light: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      position: relative;
+      cursor: default;
+      display: flex;
+      justify-content: center;
+      padding: 24px 12px;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Background layer for parallax effect */
+    .bg {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: -20vh; /* extend above viewport so parallax transform doesn't show edges */
+      min-height: calc(100vh + 40vh); /* extend below viewport for smooth movement */
+      z-index: -1;
+      background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.75)), url('dish.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform: translateY(0px) !important;
+      transition: transform 0.12s linear;
+      will-change: transform;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      background: transparent;
+    }
+
+    .card {
+      background: rgba(248, 237, 230, 0.911);
+      border-radius: 14px;
+      padding: 18px 28px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      color: var(--text);
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .hint {
+      font-size: 10px;
+      color: var(--light);
+      margin-top: 4px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 3px;
+      outline: none;
+      border: 2px solid var(--light);
+      background: var(--light);
+      outline: none;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      background: #f5f5f5;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      transition: ease 0.5s; 
+    }
+
+    input:hover, textarea:hover, select:hover,
+    input:focus, textarea:focus, select:focus {
+      background: var(--light);
+      border-color: var(--orange);
+      box-shadow: 0 0 0 5px rgba(246, 160, 121, 0.2);
+    }
+    /* hide native file input and use a label with rotated svg as the visible control */
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #f4aacde3;
+      background-image: url('log-out.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 18px;
+      transform: rotate(-90deg);
+      opacity: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    
+    .upload { 
+      display:flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 8px;
+      border: 2px solid #c9c9c9;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      background-image: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('pexels-farhad.jpg');
+      background-size: cover;
+      background-position-y: top;
+      background-repeat: no-repeat;
+      transition: ease 0.3s;
+    }
+    .upload:hover {
+      background-position-y: bottom;
+      box-shadow: 0 0 0 5px rgba(246, 160, 121, 0.2);
+    }
+
+    .upload-label {
+      font-size: 14px;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* Description + photo side-by-side */
+    .desc-row { 
+      display: flex; 
+      gap: 12px; 
+      align-items: stretch; 
+    }
+    .desc-row textarea { 
+      flex: 3; 
+      min-height: 140px !important;  
+      max-height: 140px !important; 
+      resize: none !important; 
+    }
+
+    .desc-row .upload { 
+      flex: 1; 
+      border-radius: 8px; 
+      border: solid 2px var(--btn-login);
+      padding: 18px; 
+      justify-content: center; 
+      height: 140px; 
+    }
+
+    .browse {
+      padding: 10px 20px;
+      border-radius: 18px;
+      border: none;
+      background: rgba(246,160,121,0.12);
+      color: var(--btn-login);
+      cursor: pointer;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .ingredient-row,
+    .step-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .step-row {
+      grid-template-columns: 1fr auto;
+    }
+    
+    .ingredient-row input:first-child { flex: 2; }
+    .ingredient-row input.qty { flex: 1; }
+    .step-row input { flex: 1; }
+
+    .add-btn {
+      border: solid 2px var(--btn-login);
+      background: var(--light);
+      color: var(--btn-login);
+      font-size: 24px; /* Increased for better visual centering */
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex; /* Flex used for perfect centering */
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      line-height: 0;
+      transition: ease 0.5s;
+      flex-shrink: 0;
+    }
+    .add-btn:hover {
+      background: linear-gradient(180deg,var(--btn-login), #c9655a);
+      border-color: var(--orange);
+      box-shadow: 0 0 0 5px rgba(246, 160, 121, 0.2);
+      color: #fff;
+    }
+    
+    .submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      background: linear-gradient(180deg,var(--btn-login), #c9655a);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: background 0.5s ease, transform 160ms ease, box-shadow 240ms ease;
+      will-change: transform, box-shadow;
+    }
+
+    .amount-info {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    
+    .amount-container {
+      display: flex;
+      gap: 12px;
+      align-items: stretch; /* Ensures inputs have same height */
+      margin-top: 6px;  
+    }
+
+    .start-label, .h2, h2 {
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .margin-top-12 {
+      margin-top: 12px;
+      font-weight: 500;
+      font-size: 15px;
+    }
+    .sr-only {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+    /* Custom select styles (replaces native dropdown visually) */
+    .amount-input {
+      flex: 3;
+    }
+
+    .currency-select-wrapper {
+        flex: 1;
+        min-width: 100px;
+    }
+
+    .amount-info {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* Custom Select Styles */
+    .custom-select {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-select-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: 6px;
+      background: var(--light);
+      border: 2px solid var(--accent);
+      cursor: pointer;
+      font-size: 14px;
+      min-height: 40px;
+      transition: ease 0.3s;
+    }
+    .custom-select-trigger:hover {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 5px rgba(246, 160, 121, 0.2);
+    }
+
+    .custom-options {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 4px);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+      max-height: 0;
+      opacity: 0;
+      overflow-y: auto;
+      transition: all .28s ease;
+      z-index: 100;
+    }
+
+    .custom-select.open .custom-options {
+      max-height: 220px;
+      opacity: 1;
+    }
+
+    .custom-option {
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      border-bottom: 1px solid #f1f1f1;
+    }
+
+    .custom-option:hover {
+      background: rgba(246,160,121,0.1);
+    }
+
+    .custom-hidden {
+      display: none !important;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .container { 
+        padding: 20px; 
+      }
+      .desc-row { 
+        gap: 10px; 
+      }
+    }
+    @media (max-width: 720px) {
+      .desc-row { 
+        flex-direction: column; 
+      }
+      .desc-row textarea { 
+        min-height: 120px; 
+        max-height: 220px; 
+      }
+      .row { 
+        grid-template-columns: 1fr; 
+      }
+      .ingredient-row { 
+        display: grid;
+        grid-template-columns: 1fr 0.3fr;  
+      }
+      .step-row { 
+        grid-template-columns: 1fr auto; 
+      }
+      .card { 
+        padding: 14px; 
+      }
+      .upload { 
+        padding: 14px; 
+        background-position-y: top;
+      }
+      .upload:hover { 
+        background-position-y: top;
+      }
+      .amount-container { flex-direction: row; }
+    }
+    @media (max-width: 420px) {
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        margin: 30px 5px;
+        padding: 0;
+      }
+      .bg {
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.79)), url('dish.jpg');
+      }
+      input, textarea, select {
+      padding: 12px 14px;
+      }
+      .custom-select-trigger {
+      padding: 12px 14px;
+      }
+      .desc-row { 
+        flex-direction: column; 
+      }
+      .desc-row textarea { 
+        min-height: 100px !important; 
+        max-height: 100px !important; 
+      }
+      .row { 
+        grid-template-columns: 1fr; 
+      }
+      .ingredient-row {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+      }
+      .ingredient-row input[type="text"] { 
+        flex: 1 1 auto;
+         min-width: 0;
+         }
+      .ingredient-row .qty { 
+        flex: 0 0 90px;
+        width: 90px; 
+      }
+      .step-row { 
+        grid-template-columns: 1fr auto; 
+      }
+      .card { 
+        padding: 20px 14px; 
+        border-radius: 5px;
+      }
+      .upload { 
+        padding: 10px; 
+      }
+      .submit {
+        border-radius: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <form class="container" id="recipeForm" method="post">
+
+    <div class="card">
+      <label class="start-label">Recipe Name</label>
+      <input id="recipeName" name="recipeName" type="text" placeholder="Tomato, pepper, onion" required />
+
+      <label class="margin-top-12">Recipe Origins</label>
+      <select id="country" name="country" title="country">
+        <option value="">Select country</option>
+          <option value="CM">Cameroon</option>
+          <option value="TD">Chad</option>
+          <option value="GA">Gabon</option>
+          <option value="CG">Congo</option>
+          <option value="CF">Central African Republic</option>
+          <option value="GQ">Equatorial Guinea</option>
+          <option value="NG">Nigeria</option>
+          <option value="US">United States</option>
+          <option value="FR">France</option>
+          <option value="DE">Germany</option>
+          <option value="ES">Spain</option>
+          <option value="GB">United Kingdom</option>
+          <option value="GH">Ghana</option>
+          <option value="IN">India</option>
+          <option value="JP">Japan</option>
+          <option value="CN">China</option>
+      </select>
+
+      <label class="margin-top-12">Description</label>
+      <div class="desc-row">
+        <textarea id="description" name="description" placeholder="Enter a brief description of the recipe and its benefites"></textarea>
+        <div class="upload">
+          <label class="upload-label">Upload meal here</label>
+          <label for="photoUpload" class="file-icon" title="Upload meal photo"><span class="sr-only">Upload meal photo</span></label>
+          <input id="photoUpload" type="file" accept="image/*" title="Upload meal photo" />
+          <div class="hint">Video Size (max 10MB)</div>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="card">
+      <h2>Ingredients</h2>
+      <div id="ingredients">
+        <div class="ingredient-row">
+          <input type="text" placeholder="Ingredient name" required autocomplete/>
+          <input type="text" placeholder="Quantity" class="qty" required/>
+          <button type="button" class="add-btn" onclick="addIngredient()">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Cooking Steps</h2>
+      <div id="steps">
+        <div class="step-row">
+          <input type="text" placeholder="Write instruction here" required />
+          <button type="button" class="add-btn" onclick="addStep()">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <label class="h2">Health Condition</label>
+          <select id="healthCondition" name="healthCondition" title="Health Condition">
+            <option value="">Select</option>
+            <option>Anemia</option>
+            <option>Diabetes</option>
+            <option>Digestive Problems (Ulcer, Acid Reflux, Gastritis)</option>
+            <option>Gout</option>
+            <option>Heart Disease</option>
+            <option>Hypertension</option>
+            <option>Intolerances / Food Allergies</option>
+            <option>Kidney Disease</option>
+            <option>Overweight</option>
+          </select>
+        </div>
+        <div>
+          <label class="h2">Dietary</label>
+          <select id="dietary" name="dietary" required title="Dietary preference">
+            <option value="">Select</option>
+            <option>Balance Diet</option>
+            <option>Gluten-Fat</option>
+            <option>Halal</option>
+            <option>High-Protein</option>
+            <option>Lactose-Free</option>
+            <option>Low-carbohydrate</option>
+            <option>Low-Fat</option>
+            <option>Low-Salt (Low-Sodium)</option>
+            <option>Vegan</option>
+            <option>Vegetarian</option>
+          </select>
+        </div>
+      </div>
+      <label class="margin-top-12">Meal Type</label>
+      <select id="mealType" name="mealType" title="Meal Type">
+        <option value="">family</option>
+        <option>Friends</option>
+        <option>Group / Event</option>
+        <option>Individual</option>
+        <option>Kids</option>
+        
+      </select>
+
+      <label class="margin-top-12">Meal Time</label>
+      <select id="mealTime" name="mealTime" title="Meal Time">
+        <option value="">Brunch</option>
+        <option>Breakfast</option>
+        <option>Lunch</option>
+        <option>Dinner</option>
+      </select>
+
+      <label class="margin-top-12">Amount</label>
+      <div class="amount-container">
+        <input type="number" id="amount" name="amount" placeholder="Enter your budget" autocomplete="" class="amount-input" />
+        <div class="currency-select-wrapper">
+        <select id="currency" name="currency" title="Currency">
+          <option value="XAF">XFA</option>
+          <option value="NAIRA">Naira</option>
+          <option value="USD">Dollar</option>
+          <option value="EUR">Euro</option>
+          <option value="POUND">Pound</option>
+          <option value="CEDI">Cedi</option>
+          <option value="RUPEE">Rupee</option>
+          <option value="YEN">Yen</option>
+          <option value="YUAN">Yuan</option>
+        </select>
+      </div>
+      </div>
+      <div class="amount-info" id="amountInfo"></div>
+    </div>
+
+    <button class="submit" type="submit">Submit Recipe</button>
+
+  </form>
+
+  <script>
+    /* Move automatically to next input on Enter */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        const inputs = Array.from(document.querySelectorAll('input, select, textarea'))
+          .filter(el => !el.disabled && el.type !== 'file');
+        const index = inputs.indexOf(e.target);
+        if (index > -1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      }
+    });
+
+    /* Dynamic ingredients */
+    function addIngredient() {
+      const div = document.createElement('div');
+      div.className = 'ingredient-row';
+      div.innerHTML = `
+        <input type="text" placeholder="Ingredient name" required />
+        <input type="text" placeholder="Quantity" class="qty" required />
+        <button type="button" class="add-btn" onclick="this.parentElement.remove()">−</button>
+      `;
+      document.getElementById('ingredients').appendChild(div);
+    }
+
+    /* Dynamic steps */
+    function addStep() {
+      const div = document.createElement('div');
+      div.className = 'step-row';
+      div.innerHTML = `
+        <input type="text" placeholder="Add instruction" required />
+        <button type="button" class="add-btn" onclick="this.parentElement.remove()">−</button>
+      `;
+      document.getElementById('steps').appendChild(div);
+    }
+
+    
+    /* Amount logic: auto search range (supports FCFA, USD, EUR) */
+    const amountInput = document.getElementById('amount');
+    const amountInfo = document.getElementById('amountInfo');
+    const currencySelect = document.getElementById('currency');
+    const countrySelect = document.getElementById('country');
+
+    const countryCurrencyMap = {
+    CM: 'XAF', TD: 'XAF', GA: 'XAF', CG: 'XAF', CF: 'XAF', GQ: 'XAF',
+    NG: 'NAIRA',
+    US: 'USD',
+    FR: 'EUR', DE: 'EUR', ES: 'EUR',
+    GB: 'POUND',
+    GH: 'CEDI',
+    IN: 'RUPEE',
+    JP: 'YEN',
+    CN: 'YUAN'
+  };
+
+    // conversion rates: 1 unit of currency -> X AF (FCFA)
+    const rateToXAF = { XAF: 1, NAIRA: 10, USD: 606, EUR: 656, POUND: 771, CEDI: 42, RUPEE: 7, YEN: 4, YUAN: 84};
+
+    function formatCurrency(valueInXAF, currency) {
+      const rate = rateToXAF[currency] || 1;
+      const val = valueInXAF / rate;
+      // show no decimals for large values, otherwise two decimals
+      const formatted = Math.abs(val) >= 100 ? Math.round(val) : Number(val.toFixed(4));
+      const symbol =  currency === 'NAIRA' ? '₦' : currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency === 'POUND' ? '£' : currency === 'CEDI' ? '₵' : currency === 'RUPEE' ? '₹' : currency === 'YEN' ? '¥' : currency === 'YUAN' ? '¥' : " ";
+      return `${symbol}${formatted} ${currency === 'XAF' ? 'FCFA' : ''}`.trim();
+    }
+
+    countrySelect.addEventListener('change', function() {
+        const currency = countryCurrencyMap[this.value];
+        if (currency) {
+            currencySelect.value = currency;
+            currencySelect.dispatchEvent(new Event('change'));
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', initCustomSelects);
+
+    function updateAmountInfo() {
+      const raw = Number(amountInput.value);
+      const currency = currencySelect.value || 'XAF';
+      if (!raw || isNaN(raw)) {
+        amountInfo.textContent = '';
+        return;
+      }
+      
+
+      // convert input amount in selected currency to XAF for threshold logic
+      const valueXAF = raw * (rateToXAF[currency] || 1);
+
+      let text = '';
+      if (valueXAF >= 150 && valueXAF < 1000) {
+        const min = Math.max(0, valueXAF - 0);
+        const max = valueXAF + 500;
+        text = `Recipes will be found between ${formatCurrency(min, currency)} and ${formatCurrency(max, currency)}.`;
+      } else if (valueXAF >= 1000 && valueXAF < 5000 ) {
+        const min = Math.max(0, valueXAF - 500);
+        const max = valueXAF + 2000;
+        text = `Recipes will be found between ${formatCurrency(min, currency)} and ${formatCurrency(max, currency)}.`;
+      } else if (valueXAF >= 5000 && valueXAF <= 200000) {
+        const min = Math.max(0, valueXAF - 1000);
+        const max = valueXAF + 5000;
+        text = `Recipes will be found between ${formatCurrency(min, currency)} and ${formatCurrency(max, currency)}.`;
+      } else if (valueXAF > 200000) {
+        text = `${formatCurrency(valueXAF, currency)} as input price is too high. Kindly set a reasonable price.`;
+      }
+
+      amountInfo.textContent = text;
+    }
+
+    amountInput.addEventListener('input', updateAmountInfo);
+    currencySelect.addEventListener('change', updateAmountInfo);
+
+    /* Submit: collect form data and send to backend */
+    document.getElementById('recipeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = document.getElementById('recipeForm');
+
+      // Build payload
+      const recipeName = document.getElementById('recipeName').value.trim();
+      const allergies = document.getElementById('allergies').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const healthCondition = document.getElementById('healthCondition') ? document.getElementById('healthCondition').value : '';
+      const dietary = document.getElementById('dietary') ? document.getElementById('dietary').value : '';
+      const mealType = document.getElementById('mealType') ? document.getElementById('mealType').value : '';
+      const mealTime = document.getElementById('mealTime') ? document.getElementById('mealTime').value : '';
+      const amount = document.getElementById('amount').value;
+
+      const ingredients = Array.from(document.querySelectorAll('#ingredients .ingredient-row')).map(row => {
+        const inputs = row.querySelectorAll('input');
+        return { name: (inputs[0] && inputs[0].value.trim()) || '', qty: (inputs[1] && inputs[1].value.trim()) || '' };
+      }).filter(i => i.name || i.qty);
+
+      const steps = Array.from(document.querySelectorAll('#steps .step-row input')).map(i => i.value.trim()).filter(Boolean);
+
+      const photoInput = document.getElementById('photoUpload');
+      const file = photoInput && photoInput.files && photoInput.files[0] ? photoInput.files[0] : null;
+
+      // Use FormData so file uploads are supported
+      const fd = new FormData();
+      fd.append('recipeName', recipeName);
+      fd.append('allergies', allergies);
+      fd.append('description', description);
+      fd.append('healthCondition', healthCondition);
+      fd.append('dietary', dietary);
+      fd.append('mealType', mealType);
+      fd.append('mealTime', mealTime);
+      const currency = document.getElementById('currency') ? document.getElementById('currency').value : 'XAF';
+      fd.append('amount', amount);
+      fd.append('currency', currency);
+      fd.append('ingredients', JSON.stringify(ingredients));
+      fd.append('steps', JSON.stringify(steps));
+      if (file) fd.append('photo', file);
+
+      try {
+        const endpoint = '/api/recipes'; // change to match your backend route
+        const res = await fetch(endpoint, { method: 'POST', body: fd });
+        if (!res.ok) {
+          const txt = await res.text().catch(() => 'Server error');
+          throw new Error(txt || 'Server error');
+        }
+        alert('Recipe submitted successfully');
+        form.reset();
+        document.getElementById('amountInfo').textContent = '';
+      } catch (err) {
+        console.error('Submission error', err);
+        alert('Could not submit recipe: ' + (err.message || 'Unknown error'));
+      }
+    });
+
+    /* Convert native selects into animated custom dropdowns */
+    function initCustomSelects() {
+      const selects = document.querySelectorAll('select');
+      selects.forEach(sel => {
+        if (sel.classList.contains('custom-hidden')) return;
+        
+        sel.classList.add('custom-hidden');
+        const wrapper = document.createElement('div');
+        wrapper.className = 'custom-select';
+        
+        const trigger = document.createElement('div');
+        trigger.className = 'custom-select-trigger';
+        trigger.innerHTML = `<span>${sel.options[sel.selectedIndex].text}</span><span>&#x25BE;</span>`;
+        
+        const optionsContainer = document.createElement('div');
+        optionsContainer.className = 'custom-options';
+
+        Array.from(sel.options).forEach((opt, i) => {
+          const item = document.createElement('div');
+          item.className = 'custom-option';
+          item.textContent = opt.text;
+          item.onclick = () => {
+            sel.value = opt.value;
+            trigger.firstElementChild.textContent = opt.text;
+            wrapper.classList.remove('open');
+            sel.dispatchEvent(new Event('change'));
+          };
+          optionsContainer.appendChild(item);
+        });
+
+        trigger.onclick = () => {
+          document.querySelectorAll('.custom-select').forEach(s => s !== wrapper && s.classList.remove('open'));
+          wrapper.classList.toggle('open');
+        };
+
+        wrapper.appendChild(trigger);
+        wrapper.appendChild(optionsContainer);
+        sel.parentNode.insertBefore(wrapper, sel.nextSibling);
+
+        // Sync custom UI if native select changes programmatically
+        sel.addEventListener('change', () => {
+            trigger.firstElementChild.textContent = sel.options[sel.selectedIndex].text;
+        });
+      });
+    }
+        // helper to build multi-label
+      function getMultiLabel(selEl) {
+        const selected = Array.from(selEl.selectedOptions).map(o => o.text).filter(Boolean);
+        if (selected.length === 0) return selEl.title || 'Select';
+        if (selected.length === 1) return selected[0];
+        return `${selected.length} selected`;
+      }
+
+    // initialize custom selects on DOM ready
+    document.addEventListener('DOMContentLoaded', initCustomSelects);
+
+    // close on outside click
+        window.onclick = (e) => {
+      if (!e.target.closest('.custom-select')) {
+        document.querySelectorAll('.custom-select').forEach(s => s.classList.remove('open'));
+      }
+    };
+  </script>
+</body>
+</html>
